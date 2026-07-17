@@ -1,0 +1,36 @@
+# Environment / secrets
+.env
+.env.*
+*.key
+*.pem
+credentials.json
+google-ads.yaml
+client_secret*.json
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+
+# Logs
+*.log
+logs/
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-error.log*
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Local scratch / temp
+*.tmp
+.cache/
