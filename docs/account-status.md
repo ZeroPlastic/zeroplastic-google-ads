@@ -22,13 +22,25 @@ Google sent the standard reactivation notice: account was suspended to verify bi
 - **Practical effect: no ads can serve and no spend can accrue right now**, regardless of the billing-information warning in Google's email — there is nothing live or paused to auto-resume. The "pause your campaigns or cancel your account" advice in the reactivation email is moot; it's already at "removed."
 - Open question, not yet answered: who/what removed all 12 campaigns, and when (mid-suspension cleanup by the org, or a side effect of the suspension itself). Worth confirming with the org before rebuilding, in case there's campaign history/learnings worth referencing.
 
-## Outstanding items (Google Ads account side — status changed)
+## Campaign live (2026-07-29)
 
-Developer token access level (Explorer vs. Basic) has not been re-checked since reactivation — assume it's still Explorer/read-only until confirmed otherwise. Regardless, the old "fix in place" plan is moot: since every campaign is removed, there's nothing left to patch. Any path forward is a **rebuild from zero**:
+Campaign **24084222862** ("ZP | Search | Negombo Tourists | Sigiriya Free Visit") is the rebuilt-from-zero replacement for the suspended account's old campaigns, and is now **ENABLED and SERVING** — first compliant campaign live since reactivation.
 
-- Rebuild campaign(s) compliant from day one: Manual CPC ($2 cap) or Maximize Conversions bidding only, minimum 2 ad groups per campaign with 2+ active ads each, Phrase/Exact match keywords (no Broad-match-only, no single-word/overly generic terms), 2+ active sitelinks, deliberate geo-targeting.
-- Decision still needed from the org: rebuild the Impact Center campaigns (tourism/booking angle) at all, given that angle is what caused the suspension in the first place — or rebuild around a different, unambiguously non-commercial angle (e.g. straight donation/volunteer-recruitment traffic to zeroplastic.lk).
+- Structure: 2 ad groups (Sigiriya Eco & Craft Experience `196546768017`, Sigiriya Things To Do `201824165747`), 2 RSAs per ad group (4 total, all `APPROVED`), 20 keywords (10 Phrase/10 Exact, 0 Broad), 15 campaign negatives, 4 sitelinks, 6 callouts, 0 structured snippets.
+- Targeting: Negombo city only (PRESENCE), English only, Search only (Search Partners + Display both off).
+- Budget/bidding: $50/day, Manual CPC, $2.00 bids on both ad groups.
+- Final URL: `https://zeroplastic.lk/impact-center-premium.html`, with UTM suffix `utm_source=google&utm_medium=cpc&utm_campaign=negombo_sigiriya_free_visit&utm_content={adgroupid}_{creative}&utm_term={keyword}`.
+- Conversion tracking: landing page's gtag was fixed to the correct account tag `AW-17612444693` (was wrongly pointing at `AW-18330573756`), deployed via the `zeroPlastic-landing-pages` repo's GitHub Actions pipeline. Conversion action **7701353172** ("Impact Center – Free Visit Request Submitted") is `ENABLED`/`WEBPAGE`/`SUBMIT_LEAD_FORM`/Primary/`ONE_PER_CLICK`/no value/data-driven attribution.
+- Reporting isolation: created custom conversion goal **"Free Visit Only – Negombo Search"** (`6458493274`) containing only conversion action 7701353172, and assigned it at the campaign level (all default category goals disabled for this campaign) — so the account's other lead-form/page-view/GA4 conversion actions can't dilute this campaign's reported conversions.
+- Activated via the Google Ads MCP's draft → dry-run → apply → GAQL-verify sequence, entity by entity (ads → ad groups → campaign), with a full pre-activation re-audit before the final campaign enable.
+
+## Outstanding items (Google Ads account side)
+
+Developer token access level (Explorer vs. Basic) has not been re-checked since reactivation — assume it's still Explorer/read-only until confirmed otherwise.
+
+- No conversions have been recorded yet (expected — campaign just went live). Watch the conversion action's diagnostics in the Ads UI over the next few days to confirm it's registering real activity; this isn't visible via the API.
 - Confirm current billing status in the Google Ads UI directly (the email says an alert will show there if payment info needs updating) — this isn't visible via the read paths checked so far.
+- No optimization has been performed yet — deliberately waiting for real performance data before touching bids, budget, or targeting.
 
 ## Website-side fixes completed
 
