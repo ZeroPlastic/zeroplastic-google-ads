@@ -34,13 +34,24 @@ Campaign **24084222862** ("ZP | Search | Negombo Tourists | Sigiriya Free Visit"
 - Reporting isolation: created custom conversion goal **"Free Visit Only – Negombo Search"** (`6458493274`) containing only conversion action 7701353172, and assigned it at the campaign level (all default category goals disabled for this campaign) — so the account's other lead-form/page-view/GA4 conversion actions can't dilute this campaign's reported conversions.
 - Activated via the Google Ads MCP's draft → dry-run → apply → GAQL-verify sequence, entity by entity (ads → ad groups → campaign), with a full pre-activation re-audit before the final campaign enable.
 
+## Zero-impressions investigation and resolution (2026-07-29 to 2026-08-04)
+
+Campaign 24084222862 showed **zero impressions, clicks, and cost for over a week** after going live, despite campaign/ad-group/ad/keyword all reporting `ELIGIBLE` and zero policy issues via the API throughout. Root-caused via a mix of self-diagnosis and direct escalation to Google Ad Grants support:
+
+- **Fixes applied along the way** (all confirmed live, none of these were the root cause but all were real improvements): replaced 16 of 20 keywords that had zero measurable Keyword Planner search volume (`AD_GROUP_CRITERION_RARELY_SERVED`) with volume-backed alternatives; widened geo-targeting from Negombo-only to 8 Sri Lanka locations (Negombo, Kandy, Dambulla, Habarana, Colombo, Polonnaruwa, Anuradhapura, Ella); switched location option from `PRESENCE` to `PRESENCE_OR_INTEREST`; added a 3rd, stronger 15-headline RSA to one ad group.
+- **Actual root cause, confirmed directly by Google Ad Grants support (2026-08-04 email from Bharath, Google for Nonprofits Team):** the account had a **system-imposed daily spending limit tied to a post-reactivation security review** — invisible via the API or dashboard the entire time. This has now been **lifted**, and the account is confirmed **fully compliant**, with the spending limit restored to the full **$10,000/month** Ad Grants allowance.
+- Bidding strategy was also switched from Manual CPC ($2.00 cap) to **Maximize Conversions** (the Ad Grants-sanctioned exception to the $2 cap) around the same time, per a recommendation independently confirmed by both this analysis and Google support — currently in `LEARNING` status (`campaign.primary_status`).
+- As of the last check (still same day as the lift), impressions/clicks/cost are still at 0 — expected immediately after the block lifts; watch over the next 48-72 hours per Google support's own guidance.
+- **Lesson for future sessions:** when a fully-eligible, policy-clean campaign shows zero impressions for an extended period with no visible cause, a silent account-level spend/security hold tied to recent reactivation is a real, confirmed failure mode for this account — escalate directly to Google Ad Grants support rather than continuing to iterate on campaign-level settings.
+
 ## Outstanding items (Google Ads account side)
 
 Developer token access level (Explorer vs. Basic) has not been re-checked since reactivation — assume it's still Explorer/read-only until confirmed otherwise.
 
-- No conversions have been recorded yet (expected — campaign just went live). Watch the conversion action's diagnostics in the Ads UI over the next few days to confirm it's registering real activity; this isn't visible via the API.
-- Confirm current billing status in the Google Ads UI directly (the email says an alert will show there if payment info needs updating) — this isn't visible via the read paths checked so far.
-- No optimization has been performed yet — deliberately waiting for real performance data before touching bids, budget, or targeting.
+- Watch for first real impressions/clicks/conversions now that the spending limit is restored and bidding is on Maximize Conversions in learning mode.
+- No conversions have been recorded yet. Watch the conversion action's diagnostics in the Ads UI to confirm it's registering real activity; this isn't visible via the API.
+- Campaign name still reads "Negombo Tourists" despite targeting 8 cities — cosmetic only (no functional/compliance effect), rename left to the org's discretion.
+- No further optimization planned until real performance data comes in from the now-unblocked account.
 
 ## Website-side fixes completed
 
