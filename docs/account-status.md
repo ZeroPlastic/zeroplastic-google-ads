@@ -44,6 +44,16 @@ Campaign 24084222862 showed **zero impressions, clicks, and cost for over a week
 - As of the last check (still same day as the lift), impressions/clicks/cost are still at 0 — expected immediately after the block lifts; watch over the next 48-72 hours per Google support's own guidance.
 - **Lesson for future sessions:** when a fully-eligible, policy-clean campaign shows zero impressions for an extended period with no visible cause, a silent account-level spend/security hold tied to recent reactivation is a real, confirmed failure mode for this account — escalate directly to Google Ad Grants support rather than continuing to iterate on campaign-level settings.
 
+## Zero impressions persist post-fix, escalated again (2026-08-09 to 2026-08-11)
+
+Despite the 2026-08-04 fix (spending limit lifted, account confirmed fully compliant), campaign 24084222862 still showed **zero impressions, clicks, cost, and conversions** as of the next check:
+
+- **2026-08-09** (5 days after the fix, via email to Bharath/Ad Grants support, case `6-4338000041723`): confirmed no change at all — still 0/0/0/0. Both previously-suspected causes were explicitly ruled out: Maximize Conversions bidding had exited `LEARNING` (`campaign.primary_status` = `ELIGIBLE`), and the spend-limit block was already confirmed lifted by Google. Campaign state at that check: Enabled/Serving/Eligible, 2 ad groups, 5 approved RSAs, 20 keywords (mostly Eligible), 8 Sri Lanka locations targeted (Presence or Interest), no policy issues or recommendations flagged via the API.
+- **No reply received** from Google Ad Grants support to the Aug 9 follow-up as of this writing.
+- **2026-08-11:** a **new, separate support case was opened** — `0-4196000041259`, via general `ads-support@google.com` rather than the Ad Grants (`googlegrants-support@google.com`) queue. Only an auto-acknowledgment received so far; no substantive reply yet.
+- **Status as of 2026-08-12: still open and unresolved.** Campaign has now been fully compliant and nominally "serving" for over a week with zero measured activity, and two Google support threads are outstanding (`6-4338000041723` awaiting a real reply since Aug 9; `0-4196000041259` newly opened Aug 11).
+- **Next step:** watch both case threads for a reply; if no response arrives soon, consider escalating further (e.g. via the Google for Nonprofits community forum or requesting a specialist follow-up), since two independently-confirmed-resolved blockers have not restored actual delivery.
+
 ## Outstanding items (Google Ads account side)
 
 Developer token access level (Explorer vs. Basic) has not been re-checked since reactivation — assume it's still Explorer/read-only until confirmed otherwise.
