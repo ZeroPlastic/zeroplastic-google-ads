@@ -28,6 +28,18 @@ python3 scripts/pull_account.py --include-removed    # include REMOVED entities
 python3 scripts/pull_account.py --out /tmp/pull      # write somewhere else
 ```
 
+`--date-range` takes either a GAQL literal (`LAST_7_DAYS`, `TODAY`, ...) **or an
+explicit window** `START:END` / a single `YYYY-MM-DD`. The literals cannot
+express an arbitrary period, which a period-over-period read needs:
+
+```bash
+python3 scripts/pull_account.py --date-range 2026-09-11:2026-09-13 --out snap/current
+python3 scripts/pull_account.py --date-range 2026-09-08:2026-09-10 --out snap/previous
+```
+
+Run it twice like that and diff the two `raw/daily_metrics.json` files to get a
+like-for-like comparison instead of eyeballing one blended range.
+
 Exit codes: `0` all queries succeeded, `1` some queries failed (details in the
 raw JSON), `2` credentials missing.
 
@@ -80,14 +92,24 @@ does not exist yet.
 | `campaigns_settings` | Status, primary status + reasons, bidding, budget, networks |
 | `ad_groups` | Ad groups with status and CPC bids |
 | `ads` | RSAs with headlines, descriptions, final URLs, policy approval status |
-| `keywords` | Keywords with match type, status, quality score, serving status |
+| `keywords` | Keywords with match type, status, serving status, quality score **and its three components** (expected CTR, ad relevance, landing page experience) |
 | `keyword_metrics` | Per-keyword performance |
 | `negative_keywords_campaign` / `_ad_group` | Negative keyword lists |
 | `geo_targets` / `language_targets` | Location and language targeting |
 | `campaign_assets` / `customer_assets` | Sitelinks, callouts, structured snippets |
 | `conversion_actions` | Conversion actions with category, counting, attribution |
 | `search_terms` | Search terms report for the date range |
-| `daily_metrics` | Day-by-day campaign metrics |
+| `daily_metrics` | Day-by-day campaign metrics, **plus impression share**: search IS, top IS, absolute top IS, IS lost to rank, IS lost to budget, conversion rate, cost/conv |
+| `hourly_today` | Today only, split by hour — for "up to the latest available hour" |
+| `ad_group_metrics` | Ad-group performance over the window (the `ad_groups` query carries settings only, no metrics) |
+| `ad_metrics` | Per-ad impressions/clicks/CTR/conversions over the window |
+| `conversions_by_action` | Conversions segmented by conversion action — the only way to prove a campaign optimises toward the intended action rather than being diluted by unrelated ones |
+| `budget_details` | Budget status, delivery method, period, recommended budget |
+| `portfolio_bid_strategies` | Portfolio bid strategies and their status, if any are attached |
+| `user_lists` | Customer Match / audience lists: type, membership status, size, search & display eligibility, match rate |
+| `campaign_audiences` | Which audience lists are attached to which campaign, with bid modifier |
+| `targeting_settings` | `target_restrictions` — `bid_only = true` is Observation, `false` is Targeting |
+| `asset_policy` | Asset-level approval status, for tracing a "Destination not working" disapproval |
 
 ### Compliance check
 
@@ -111,3 +133,19 @@ The check reads only what the API returns. It cannot see account-level spend
 or security holds, which are invisible to the API — the confirmed root cause of
 this account's 2026-08 zero-impressions episode. A clean compliance report is
 therefore not on its own an explanation for a campaign that is not serving.
+
+### A note on unverified queries
+
+The queries added on 2026-09-13 (`hourly_today`, `ad_group_metrics`,
+`ad_metrics`, `conversions_by_action`, `budget_details`,
+`portfolio_bid_strategies`, `user_lists`, `campaign_audiences`,
+`targeting_settings`, `asset_policy`) were written **without live API access to
+validate them against the real schema** — no credentials exist in a Claude Code
+remote sandbox. They are syntactically correct and use documented field names,
+but a field could still be unsupported on the pinned API version.
+
+The script isolates failures per query: a rejected query records its error in
+`raw/<query>.json` and the run continues, exiting `1` rather than `0`. So a bad
+field costs you that one file, not the pull. If `asset_policy` in particular
+fails, drop it — `ad_group_ad_asset_view.policy_summary` is the least certain of
+the set.

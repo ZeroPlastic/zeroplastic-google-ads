@@ -31,6 +31,7 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import re
 import datetime as dt
 import json
 import os
@@ -142,8 +143,34 @@ def where(*clauses: str) -> str:
     return (" WHERE " + " AND ".join(live)) if live else ""
 
 
+def date_expression(date_range: str) -> str:
+    """Return a GAQL date predicate for a literal or an explicit START:END window.
+
+    "LAST_7_DAYS"              -> DURING LAST_7_DAYS
+    "2026-09-11:2026-09-13"    -> BETWEEN '2026-09-11' AND '2026-09-13'
+    "2026-09-11"               -> BETWEEN '2026-09-11' AND '2026-09-11'
+    """
+    iso = r"\d{4}-\d{2}-\d{2}"
+    m = re.fullmatch(rf"({iso}):({iso})", date_range)
+    if m:
+        return f"BETWEEN '{m.group(1)}' AND '{m.group(2)}'"
+    if re.fullmatch(iso, date_range):
+        return f"BETWEEN '{date_range}' AND '{date_range}'"
+    if not re.fullmatch(r"[A-Z_0-9]+", date_range):
+        raise SystemExit(
+            f"Invalid --date-range {date_range!r}: expected a GAQL literal such as "
+            "LAST_7_DAYS, or an explicit window like 2026-09-11:2026-09-13"
+        )
+    return f"DURING {date_range}"
+
+
 def build_queries(date_range: str, include_removed: bool) -> dict[str, str]:
-    date_clause = f"segments.date DURING {date_range}"
+    # date_range is either a GAQL date literal (LAST_7_DAYS, TODAY, ...) or an
+    # explicit "YYYY-MM-DD:YYYY-MM-DD" window. Ad Grants reporting often needs a
+    # specific window (e.g. comparing Sep 11-13 against Sep 8-10), which the
+    # DURING literals cannot express.
+    date_expr = date_expression(date_range)
+    date_clause = f"segments.date {date_expr}"
     camp_live = "" if include_removed else "campaign.status != 'REMOVED'"
     ag_live = "" if include_removed else "ad_group.status != 'REMOVED'"
     ada_live = "" if include_removed else "ad_group_ad.status != 'REMOVED'"
@@ -168,7 +195,7 @@ def build_queries(date_range: str, include_removed: bool) -> dict[str, str]:
                    metrics.cost_micros, metrics.average_cpc, metrics.conversions,
                    metrics.conversions_value, metrics.all_conversions
             FROM customer
-            WHERE segments.date DURING {date_range}
+            WHERE segments.date {date_expr}
         """,
         "campaigns": f"""
             SELECT campaign.id, campaign.name, campaign.status,
@@ -226,6 +253,9 @@ def build_queries(date_range: str, include_removed: bool) -> dict[str, str]:
                    ad_group_criterion.approval_status,
                    ad_group_criterion.system_serving_status,
                    ad_group_criterion.quality_info.quality_score,
+                   ad_group_criterion.quality_info.search_predicted_ctr,
+                   ad_group_criterion.quality_info.creative_quality_score,
+                   ad_group_criterion.quality_info.post_click_quality_score,
                    ad_group_criterion.effective_cpc_bid_micros,
                    ad_group_criterion.final_urls
             FROM ad_group_criterion{kw_filter}
@@ -237,7 +267,7 @@ def build_queries(date_range: str, include_removed: bool) -> dict[str, str]:
                    metrics.impressions, metrics.clicks, metrics.ctr,
                    metrics.cost_micros, metrics.average_cpc, metrics.conversions
             FROM keyword_view
-            WHERE segments.date DURING {date_range}
+            WHERE segments.date {date_expr}
         """,
         "negative_keywords_campaign": """
             SELECT campaign.id, campaign.name, campaign_criterion.criterion_id,
@@ -309,14 +339,119 @@ def build_queries(date_range: str, include_removed: bool) -> dict[str, str]:
                    metrics.impressions, metrics.clicks, metrics.ctr,
                    metrics.cost_micros, metrics.conversions
             FROM search_term_view
-            WHERE segments.date DURING {date_range}
+            WHERE segments.date {date_expr}
         """,
         "daily_metrics": f"""
             SELECT segments.date, campaign.id, campaign.name,
                    metrics.impressions, metrics.clicks, metrics.ctr,
+                   metrics.cost_micros, metrics.average_cpc,
+                   metrics.conversions, metrics.conversions_value,
+                   metrics.all_conversions,
+                   metrics.conversions_from_interactions_rate,
+                   metrics.cost_per_conversion,
+                   metrics.search_impression_share,
+                   metrics.search_top_impression_share,
+                   metrics.search_absolute_top_impression_share,
+                   metrics.search_rank_lost_impression_share,
+                   metrics.search_budget_lost_impression_share
+            FROM campaign
+            WHERE segments.date {date_expr}
+        """,
+        # Today only, split by hour - "up to the latest available hour".
+        "hourly_today": f"""
+            SELECT segments.date, segments.hour, campaign.id, campaign.name,
+                   metrics.impressions, metrics.clicks, metrics.ctr,
                    metrics.cost_micros, metrics.conversions
             FROM campaign
-            WHERE segments.date DURING {date_range}
+            WHERE segments.date DURING TODAY
+        """,
+        # Ad group performance over the window (Step 5). The `ad_groups` query
+        # above carries settings only and has no date segment.
+        "ad_group_metrics": f"""
+            SELECT campaign.id, campaign.name, ad_group.id, ad_group.name,
+                   ad_group.status,
+                   metrics.impressions, metrics.clicks, metrics.ctr,
+                   metrics.cost_micros, metrics.average_cpc,
+                   metrics.conversions,
+                   metrics.conversions_from_interactions_rate,
+                   metrics.cost_per_conversion
+            FROM ad_group
+            WHERE segments.date {date_expr}
+        """,
+        # Per-ad performance over the window (Step 8).
+        "ad_metrics": f"""
+            SELECT campaign.name, ad_group.name, ad_group_ad.ad.id,
+                   ad_group_ad.status,
+                   ad_group_ad.policy_summary.approval_status,
+                   metrics.impressions, metrics.clicks, metrics.ctr,
+                   metrics.cost_micros, metrics.conversions
+            FROM ad_group_ad
+            WHERE segments.date {date_expr}
+        """,
+        # Which conversion action each conversion came from (Step 4) - the only
+        # way to prove a campaign is optimising toward the intended action and
+        # not being diluted by unrelated ones.
+        "conversions_by_action": f"""
+            SELECT campaign.id, campaign.name, ad_group.name,
+                   segments.conversion_action,
+                   segments.conversion_action_name,
+                   segments.conversion_action_category,
+                   metrics.conversions, metrics.all_conversions,
+                   metrics.conversions_value
+            FROM campaign
+            WHERE segments.date {date_expr}
+        """,
+        # Budget delivery + whether the campaign is budget-limited (Step 3).
+        "budget_details": f"""
+            SELECT campaign.id, campaign.name, campaign_budget.id,
+                   campaign_budget.name, campaign_budget.amount_micros,
+                   campaign_budget.status, campaign_budget.delivery_method,
+                   campaign_budget.period, campaign_budget.explicitly_shared,
+                   campaign_budget.has_recommended_budget,
+                   campaign_budget.recommended_budget_amount_micros
+            FROM campaign{camp_filter}
+        """,
+        # Portfolio bid strategies, if any are attached (Step 3).
+        "portfolio_bid_strategies": """
+            SELECT bidding_strategy.id, bidding_strategy.name,
+                   bidding_strategy.type, bidding_strategy.status,
+                   bidding_strategy.campaign_count,
+                   bidding_strategy.non_removed_campaign_count
+            FROM bidding_strategy
+        """,
+        # Customer Match / audience state (Step 9).
+        "user_lists": """
+            SELECT user_list.id, user_list.name, user_list.type,
+                   user_list.membership_status, user_list.size_for_search,
+                   user_list.size_for_display, user_list.eligible_for_search,
+                   user_list.eligible_for_display, user_list.match_rate_percentage,
+                   user_list.read_only, user_list.access_reason
+            FROM user_list
+        """,
+        "campaign_audiences": """
+            SELECT campaign.id, campaign.name, campaign_criterion.criterion_id,
+                   campaign_criterion.type, campaign_criterion.status,
+                   campaign_criterion.bid_modifier,
+                   campaign_criterion.user_list.user_list
+            FROM campaign_criterion
+            WHERE campaign_criterion.type = 'USER_LIST'
+        """,
+        # bid_only = true means Observation; false means Targeting (Step 9).
+        "targeting_settings": f"""
+            SELECT campaign.id, campaign.name,
+                   campaign.targeting_setting.target_restrictions
+            FROM campaign{camp_filter}
+        """,
+        # Asset-level policy detail, for the known "Destination not working"
+        # disapproval. May not be supported on every API version; a failure here
+        # is isolated to this one query.
+        "asset_policy": """
+            SELECT campaign.name, ad_group.name, asset.id, asset.type,
+                   asset.name, asset.final_urls,
+                   ad_group_ad_asset_view.field_type,
+                   ad_group_ad_asset_view.policy_summary.approval_status,
+                   ad_group_ad_asset_view.policy_summary.review_status
+            FROM ad_group_ad_asset_view
         """,
     }
 
