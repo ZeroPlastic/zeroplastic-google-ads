@@ -70,7 +70,30 @@ No live API/MCP access exists in this environment, so this review is reconstruct
 
 **Net assessment:** as of 2026-09-09, the account has now gone over five weeks since the Aug 4 "fully compliant, $10,000/month restored" confirmation with no confirmed impressions, and has accumulated three open/stalled support threads plus two unresolved account-level issues (disapproved asset, pending security approval) that were never surfaced back to Google support or resolved. These are higher-confidence, concrete next steps compared to the earlier speculative "silent spend limit" theory — recommend resolving both before further escalating to Google support again.
 
+## Production pull attempt and repo consolidation (2026-09-13)
+
+Attempted a full pull of live production state. **No live account data was retrieved** — both read paths are unavailable from a Claude Code remote session. Recording the negative result so a future session doesn't re-derive it.
+
+**What was consolidated.** Two branches carrying real work had been left unmerged on `origin` with no open PR, and were invisible to anyone reading `main`. Both are now merged:
+
+- `claude/google-ads-pull-vm0f13` → `scripts/pull_account.py` + `scripts/README.md` (read-only GAQL snapshot tool)
+- `claude/pull-q8mjep` → the Aug 9–11 escalation and Sep 9 email-trail sections of this doc
+
+**Confirmed environment limits (re-verified this session, not assumed):**
+
+- **Google Ads API:** no `~/.mcp-google-ads/` credential files, no `GOOGLE_ADS_*` environment variables, no `google-ads` Python SDK, and no Google Ads MCP server attached. `scripts/pull_account.py` exits `2` ("Missing credentials: client_id, client_secret, refresh_token, developer_token"). The script itself is healthy — `--dry-run` emits all 17 GAQL queries and exits `0` — so it only needs to be run somewhere the credentials exist.
+- **Gmail:** the connector attached to this session is **send/modify-only** (13 tools: send, reply, forward, trash, spam, labels, `get_draft`). It exposes **no `search_threads` / `get_thread` / message-read tool**, so the Gmail-trail reconstruction that produced the 2026-09-09 section above cannot be repeated here. Re-reading the mailbox needs a session whose Gmail connector is granted read scope.
+
+**Net:** the account's live state is unverified as of this date. Everything below still reflects the 2026-09-09 reconstruction, and the two unresolved issues it surfaced remain unresolved as far as this repo knows.
+
 ## Outstanding items (Google Ads account side)
+
+### Time-critical (as of 2026-09-13)
+
+1. **Pending admin security approval — expires 2026-09-19 (6 days out).** A "sensitive change" request on account 542-121-6511 by admin `nish@zeroplasticmovement.org` is still awaiting in-UI approval (Google notices Aug 30 + Sep 2). It cannot be actioned by email or API — it has to be approved or rejected while signed into the Google Ads UI. If it expires it must be re-requested from scratch. Possibly tied to the still-pending $329/day spend-limit restoration, which would make this a candidate blocker for the zero-delivery problem.
+2. **Disapproved asset — "Destination not working" (flagged 2026-09-05).** Unresolved, and not yet raised with Google support on any of the three open cases. Compliance-officer priority: open Policy Manager, identify the asset, fix the destination URL, confirm it resolves over HTTPS, then appeal. Given the account's history of unexplained zero delivery this is a plausible contributing cause, not a cosmetic issue.
+
+### Ongoing
 
 Developer token access level (Explorer vs. Basic) has not been re-checked since reactivation — assume it's still Explorer/read-only until confirmed otherwise.
 
