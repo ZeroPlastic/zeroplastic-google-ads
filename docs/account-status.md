@@ -44,6 +44,32 @@ Campaign 24084222862 showed **zero impressions, clicks, and cost for over a week
 - As of the last check (still same day as the lift), impressions/clicks/cost are still at 0 — expected immediately after the block lifts; watch over the next 48-72 hours per Google support's own guidance.
 - **Lesson for future sessions:** when a fully-eligible, policy-clean campaign shows zero impressions for an extended period with no visible cause, a silent account-level spend/security hold tied to recent reactivation is a real, confirmed failure mode for this account — escalate directly to Google Ad Grants support rather than continuing to iterate on campaign-level settings.
 
+## Zero impressions persist post-fix, escalated again (2026-08-09 to 2026-08-11)
+
+Despite the 2026-08-04 fix (spending limit lifted, account confirmed fully compliant), campaign 24084222862 still showed **zero impressions, clicks, cost, and conversions** as of the next check:
+
+- **2026-08-09** (5 days after the fix, via email to Bharath/Ad Grants support, case `6-4338000041723`): confirmed no change at all — still 0/0/0/0. Both previously-suspected causes were explicitly ruled out: Maximize Conversions bidding had exited `LEARNING` (`campaign.primary_status` = `ELIGIBLE`), and the spend-limit block was already confirmed lifted by Google. Campaign state at that check: Enabled/Serving/Eligible, 2 ad groups, 5 approved RSAs, 20 keywords (mostly Eligible), 8 Sri Lanka locations targeted (Presence or Interest), no policy issues or recommendations flagged via the API.
+- **No reply received** from Google Ad Grants support to the Aug 9 follow-up as of this writing.
+- **2026-08-11:** a **new, separate support case was opened** — `0-4196000041259`, via general `ads-support@google.com` rather than the Ad Grants (`googlegrants-support@google.com`) queue. Only an auto-acknowledgment received so far; no substantive reply yet.
+- **Status as of 2026-08-12: still open and unresolved.** Campaign has now been fully compliant and nominally "serving" for over a week with zero measured activity, and two Google support threads are outstanding (`6-4338000041723` awaiting a real reply since Aug 9; `0-4196000041259` newly opened Aug 11).
+- **Next step:** watch both case threads for a reply; if no response arrives soon, consider escalating further (e.g. via the Google for Nonprofits community forum or requesting a specialist follow-up), since two independently-confirmed-resolved blockers have not restored actual delivery.
+
+## Full email-trail reconstruction and new findings (2026-09-09)
+
+No live API/MCP access exists in this environment, so this review is reconstructed entirely from the Gmail trail (`nish@zeroplasticmovement.org`). It fills in three weeks (Aug 11 – Sep 9) not previously captured here, and surfaces two live, unresolved issues.
+
+**Case churn, Aug 11–22 (case `0-4196000041259`, opened via general `ads-support@google.com` after the original Grants case went unanswered):**
+- Aug 19: a *third*, separate case (`1-8950000041329`) was also opened around the same time; Google's reply (Rajeshwari) punted impressions/disapproval questions to "the Google Ads team" and gave only generic Ad Grants tips — no account-specific diagnosis.
+- Aug 21: a support agent (Sumedh) on case `0-4196000041259` told Nish the account "needs to change as per Account management policy" and to switch to Maximize Conversions — **despite this already having been done and confirmed on Aug 9**. Nish replied visibly frustrated: different support agents were giving contradictory/repeated instructions with no continuity between them.
+- Aug 22: Nish confirmed (again) both enabled Search campaigns are on Maximize Conversions with no Target CPA, no policy issues, correct primary conversion action, and asked Sumedh to restore the daily spend limit to $329 (the daily-equivalent of the $10,000/month Ad Grants cap) as promised.
+- **No reply from Google since Aug 22 (18 days as of 2026-09-09).** This case is still open and unanswered — a second, separate stall after the Aug 9 stall on the original case.
+
+**New issue #1 — disapproved asset, unresolved (2026-09-05):** Google Ads sent a policy notice: **1 asset disapproved, policy reason "Destination not working."** This is a concrete, fixable compliance issue (Google Ads Compliance Officer hat) and — given the account's history of unexplained zero delivery — a real candidate contributing cause, not just cosmetic. No evidence in the mailbox that this has been investigated or fixed yet. **Action needed:** open Policy Manager, identify the specific disapproved asset, fix its destination URL (check for a broken/redirecting/blocked landing page), then use the "Appeal" action on that ad once the destination is confirmed working.
+
+**New issue #2 — pending admin security approval, unresolved, deadline 2026-09-19:** Google sent "[Action required] Review security request" (Aug 30) and "[Reminder]" (Sep 2): admin `nish@zeroplasticmovement.org` requested a "sensitive change" on account 542-121-6511 that requires a separate in-UI admin approval (Google's standard 2-step sensitive-change confirmation, not something actionable by email or API). **This has not been approved or rejected yet**, and the request expires **2026-09-19**. Until it's approved (or re-requested after expiry), whatever change was queued will not take effect — worth checking whether this is tied to the still-pending $329/day spend-limit restoration. **Action needed:** sign into the Google Ads UI and approve/reject this request before it expires.
+
+**Net assessment:** as of 2026-09-09, the account has now gone over five weeks since the Aug 4 "fully compliant, $10,000/month restored" confirmation with no confirmed impressions, and has accumulated three open/stalled support threads plus two unresolved account-level issues (disapproved asset, pending security approval) that were never surfaced back to Google support or resolved. These are higher-confidence, concrete next steps compared to the earlier speculative "silent spend limit" theory — recommend resolving both before further escalating to Google support again.
+
 ## Outstanding items (Google Ads account side)
 
 Developer token access level (Explorer vs. Basic) has not been re-checked since reactivation — assume it's still Explorer/read-only until confirmed otherwise.
