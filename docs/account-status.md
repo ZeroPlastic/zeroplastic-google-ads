@@ -70,6 +70,35 @@ No live API/MCP access exists in this environment, so this review is reconstruct
 
 **Net assessment:** as of 2026-09-09, the account has now gone over five weeks since the Aug 4 "fully compliant, $10,000/month restored" confirmation with no confirmed impressions, and has accumulated three open/stalled support threads plus two unresolved account-level issues (disapproved asset, pending security approval) that were never surfaced back to Google support or resolved. These are higher-confidence, concrete next steps compared to the earlier speculative "silent spend limit" theory — recommend resolving both before further escalating to Google support again.
 
+## Full account analysis (2026-09-19) — corrected timeline, root-cause hypothesis, priority actions
+
+Deeper pass through the same three Google support cases fills in gaps the 09-09 entry missed, and the deadline flagged then has now arrived. No live Ads API access in this environment — this is a Gmail-trail reconstruction plus analysis, not a live account pull.
+
+**Corrected/extended support timeline:**
+- **Aug 19 08:22** (case `6-4338000041723`): Bharath sends a **second, word-for-word repeat** of the Aug 3 "fully compliant, $10,000/month restored" confirmation.
+- **Aug 19 11:22:** Nish pushes back — "two weeks back also you told the same but nothing happened," 30 days running with zero impressions using the Google Ads MCP connector.
+- **Aug 19 14:19 / 17:02:** Two more generic, non-diagnostic replies land (case `1-8950000041329` punts to "the Google Ads team"; case `6-4338000041723` repeats boilerplate tips).
+- **Aug 21 00:49:** Nish explicitly **requests escalation beyond the standard support queue** on case `6-4338000041723`.
+- **Aug 21–22** (case `0-4196000041259`): the Sumedh back-and-forth already logged above.
+- **Aug 24 20:15** (case `0-4196000041259`): Sumedh sends a **third** "fully compliant, $10,000/month restored" confirmation — essentially the same message as Aug 3 and Aug 19, on yet another case thread.
+- **Aug 30 / Sep 2:** pending admin security-approval request ("sensitive change" on the account), unactioned, expiry set for **2026-09-19 — today**.
+- **Sep 5:** disapproved asset notice, "Destination not working."
+- **Sep 7 18:23:** Bharath's reply to Nish's **Aug 21 escalation request — 17 days later** — is a two-line non-answer ("we understand your concern... follow the steps in the previous email"). The explicit escalation ask was never actually honored.
+- **Sep 13:** account granted **Customer Match** access — a mildly positive signal (Google doesn't typically extend this to accounts under active major penalty), but not proof of ad delivery.
+- **Sep 14:** a **second** "Assets (1) impacted — Destination not working" notice, 9 days after the first. Same policy reason both times — strong evidence this is an unresolved, possibly recurring/unfixed disapproval, not a one-off.
+- **No further correspondence found Sep 14 → Sep 19 (today).** No confirmation the security request was ever approved/rejected before its deadline.
+
+**Root-cause reassessment (Ad Grant Specialist + Compliance Officer hats):** Google support has now told Nish "fully compliant, spend limit restored" **three separate times** (Aug 3, Aug 19, Aug 24) across three case numbers, without impressions ever materializing. That repetition itself is a signal: these replies check a compliance status field, not actual serving — they are not proof the account can serve ads. Meanwhile two concrete, mechanically-plausible blockers have sat unaddressed:
+1. **A recurring "Destination not working" disapproval.** Ad Grants requires **at least 2 active ads per ad group**. If this disapproval affects an RSA (rather than just a sitelink/callout asset), and it has now persisted across two separate notices nine days apart, it may have silently dropped one or both ad groups below the 2-active-ad minimum — which would suppress serving for the whole ad group, not just the flagged asset. This is a materially stronger candidate than the earlier "silent spend limit" theory, precisely because that theory has now been "fixed" three times without effect.
+2. **The unactioned sensitive-change security approval**, expired or expiring today. Whatever change was queued (possibly the very bid-strategy/budget change support asked for) will not take effect until approved — and if it lapsed today, it needs to be re-requested, which likely restarts another silent wait.
+
+**Priority actions, in order:**
+1. **Today:** sign into the Ads UI and check whether the security request from Aug 30 is still pending, expired, or was already resolved. If still open, approve/reject it before the window closes (if not already closed).
+2. **Immediately:** open Policy Manager, identify the specific disapproved asset (is it an RSA or an ad extension?), check whether either ad group has dropped below 2 active ads, and fix the destination URL — test it directly for redirects, server errors, or a broken/moved landing page — then use "Appeal" once confirmed working.
+3. **If ad-group active-ad counts are below the Ad Grants minimum**, add compliant replacement RSAs immediately regardless of the disapproval appeal outcome, to restore compliance and remove that specific serving suppression.
+4. **On the next support contact**, stop asking "why zero impressions" (which invites generic tips) — cite the specific unresolved items instead: case numbers `6-4338000041723`, `0-4196000041259`, `1-8950000041329`; the Sep 5/Sep 14 disapproval; and the Aug 30 security request — and ask Google to confirm actual ad-serving/impression status directly, not just compliance status.
+5. Once both are resolved, resume the 48–72 hour delivery watch as before.
+
 ## Outstanding items (Google Ads account side)
 
 Developer token access level (Explorer vs. Basic) has not been re-checked since reactivation — assume it's still Explorer/read-only until confirmed otherwise.
