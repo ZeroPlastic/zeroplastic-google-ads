@@ -1,0 +1,437 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ayesha Travel | Plan Your Sri Lanka Journey, at Your Own Pace</title>
+  <meta name="description" content="Plan a Sri Lankan journey shaped around you. Explore Sigiriya, Kandy, Ella, Galle, Mirissa and Yala, then share your travel plans with Ayesha to discuss suitable options.">
+  <meta name="theme-color" content="#0f3b3d">
+
+  <!-- Social sharing. Once the site has its own domain, change og:image to a full URL
+       (e.g. https://yourdomain.com/assets/img/og-image.jpg) and add og:url. -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Ayesha Travel">
+  <meta property="og:title" content="Ayesha Travel | Sri Lanka, at your own pace">
+  <meta property="og:description" content="Discover extraordinary places and a Sri Lankan journey shaped around you. Share your travel plans with Ayesha.">
+  <meta property="og:image" content="assets/img/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Sigiriya rock fortress rising above forest, seen from Pidurangala rock">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Ayesha Travel | Sri Lanka, at your own pace">
+  <meta name="twitter:description" content="Discover extraordinary places and a Sri Lankan journey shaped around you.">
+  <meta name="twitter:image" content="assets/img/og-image.jpg">
+
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="assets/fonts/cormorant-garamond-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/source-sans-3-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" as="image" href="assets/img/hero-sigiriya-1600.webp" type="image/webp"
+        imagesrcset="assets/img/hero-sigiriya-960.webp 960w, assets/img/hero-sigiriya-1600.webp 1600w, assets/img/hero-sigiriya-2400.webp 2400w"
+        imagesizes="100vw" fetchpriority="high">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <noscript><link rel="stylesheet" href="assets/css/no-js.css"></noscript>
+
+  <script src="assets/js/site-config.js" defer></script>
+  <script src="assets/js/main.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <!-- ============================== HEADER ============================== -->
+  <header class="site-header" data-header>
+    <div class="container header-inner">
+      <a class="brand" href="#top" aria-label="Ayesha Travel, back to top">
+        <img src="assets/img/logo.svg" alt="Ayesha Travel" width="220" height="48">
+      </a>
+
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
+        <span class="nav-toggle-bars" aria-hidden="true"></span>
+        <span class="nav-toggle-label">Menu</span>
+      </button>
+
+      <nav class="site-nav" id="site-nav" aria-label="Main" data-nav>
+        <ul class="nav-list">
+          <li><a href="#destinations">Destinations</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#plan">Plan Your Trip</a></li>
+        </ul>
+        <a class="btn btn-gold nav-cta" href="#plan">
+          Plan My Trip
+          <span class="trip-count" data-trip-count hidden></span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- =============================== HERO =============================== -->
+    <section class="hero" id="top" aria-labelledby="hero-title">
+      <picture class="hero-media">
+        <source type="image/webp"
+                srcset="assets/img/hero-sigiriya-960.webp 960w, assets/img/hero-sigiriya-1600.webp 1600w, assets/img/hero-sigiriya-2400.webp 2400w"
+                sizes="100vw">
+        <img src="assets/img/hero-sigiriya-1600.jpg"
+             srcset="assets/img/hero-sigiriya-960.jpg 960w, assets/img/hero-sigiriya-1600.jpg 1600w, assets/img/hero-sigiriya-2400.jpg 2400w"
+             sizes="100vw" width="2400" height="1600" fetchpriority="high" decoding="async"
+             alt="Sigiriya rock fortress rising above forest and farmland, seen from Pidurangala rock">
+      </picture>
+      <div class="container hero-content">
+        <p class="eyebrow eyebrow-light">Travel planning for Sri Lanka</p>
+        <h1 id="hero-title">Sri Lanka, <em>at your own pace.</em></h1>
+        <p class="hero-lede">Discover extraordinary places, meaningful experiences, and a journey shaped around you. Share your travel plans with Ayesha, and let’s start creating your Sri Lankan adventure.</p>
+        <div class="hero-actions">
+          <a class="btn btn-light" href="#destinations">Explore Destinations</a>
+          <a class="btn btn-gold" href="#plan">Plan My Trip</a>
+        </div>
+      </div>
+      <p class="hero-caption"><span>Sigiriya, seen from Pidurangala</span></p>
+    </section>
+
+    <!-- =========================== DESTINATIONS ========================== -->
+    <section class="section destinations" id="destinations" aria-labelledby="destinations-title">
+      <div class="container">
+        <header class="section-head">
+          <p class="eyebrow">Destinations</p>
+          <h2 id="destinations-title">Six places to begin with</h2>
+          <p class="section-intro">From ancient rock fortresses to tea-covered hills and quiet southern beaches. Add the places that interest you to your trip, and they will appear in your enquiry.</p>
+        </header>
+
+        <!-- Cards are built from assets/js/site-config.js -->
+        <ul class="destination-grid" data-destination-grid role="list"></ul>
+        <noscript>
+          <p class="notice">Destination selection needs JavaScript. You can still describe the places you would like to visit in your enquiry.</p>
+        </noscript>
+      </div>
+    </section>
+
+    <!-- =============================== ABOUT ============================== -->
+    <section class="section about" id="about" aria-labelledby="about-title">
+      <div class="container about-grid">
+        <div class="about-copy">
+          <p class="eyebrow">About Ayesha Travel</p>
+          <h2 id="about-title">A personal starting point for your Sri Lankan journey</h2>
+          <p>Planning a trip to a new country can feel like a lot to hold at once. Ayesha Travel is a simple, personal place to begin.</p>
+          <p>Tell Ayesha what draws you to Sri Lanka, how much time you have, and anything you need along the way, from airport transfers to accessibility requirements. Together, you can talk through suitable options and shape a journey that feels right for you.</p>
+          <p>There is no fixed package to fit into. Whether you already have dates and a route in mind, or are simply curious about where to start, your enquiry is a conversation, not a commitment.</p>
+        </div>
+        <ul class="about-points" role="list">
+          <li>
+            <h3>Shaped around you</h3>
+            <p>Your interests, your pace and your available time guide the conversation.</p>
+          </li>
+          <li>
+            <h3>Room for questions</h3>
+            <p>Not sure how long to stay or where to go? That is a good place to start.</p>
+          </li>
+          <li>
+            <h3>No pressure to book</h3>
+            <p>Sending an enquiry simply opens the discussion. Nothing is reserved or charged.</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- =========================== HOW IT WORKS ========================== -->
+    <section class="section steps" id="how-it-works" aria-labelledby="steps-title">
+      <div class="container">
+        <header class="section-head">
+          <p class="eyebrow">How it works</p>
+          <h2 id="steps-title">Three simple steps</h2>
+        </header>
+        <ol class="step-list" role="list">
+          <li class="step">
+            <span class="step-number" aria-hidden="true">01</span>
+            <h3>Choose your interests</h3>
+            <p>Browse the destinations and add the places that appeal to you. If you are unsure, choose “Help me choose”.</p>
+          </li>
+          <li class="step">
+            <span class="step-number" aria-hidden="true">02</span>
+            <h3>Tell us about your trip</h3>
+            <p>Share your travel window, who is travelling and what kind of support would be helpful. Approximate details are fine.</p>
+          </li>
+          <li class="step">
+            <span class="step-number" aria-hidden="true">03</span>
+            <h3>Discuss your travel plan with Ayesha</h3>
+            <p>Ayesha will reply to talk through suitable options with you and answer your questions.</p>
+          </li>
+        </ol>
+        <p class="steps-note"><strong>Please note:</strong> sending the form is an enquiry, not a confirmed booking. No payment is taken and nothing is reserved until you have discussed and agreed your plans with Ayesha.</p>
+      </div>
+    </section>
+
+    <!-- ============================ ENQUIRY FORM ========================== -->
+    <section class="section plan" id="plan" aria-labelledby="plan-title">
+      <div class="container plan-grid">
+        <header class="plan-intro">
+          <p class="eyebrow">Plan your trip</p>
+          <h2 id="plan-title">Share your travel plans</h2>
+          <p>Tell Ayesha a little about the journey you have in mind. Only the fields marked <span class="req-mark" aria-hidden="true">*</span><span class="visually-hidden">as required</span> are required, and approximate answers are welcome.</p>
+          <p class="plan-small">This is a travel enquiry, not a booking. You will receive a personal reply by email.</p>
+        </header>
+
+        <noscript><p class="notice">The enquiry form needs JavaScript. Please enable JavaScript in your browser to send a travel enquiry.</p></noscript>
+
+        <form class="enquiry-form" id="enquiry-form" action="/api/enquiry" method="post" novalidate data-enquiry-form>
+          <div class="form-status" data-form-status role="status" aria-live="polite" tabindex="-1" hidden></div>
+
+          <!-- 1. About you -->
+          <fieldset class="form-section">
+            <legend><span class="legend-num" aria-hidden="true">1</span> About you</legend>
+            <div class="field-row">
+              <div class="field">
+                <label for="fullName">Full name <span class="req-mark" aria-hidden="true">*</span></label>
+                <input id="fullName" name="fullName" type="text" autocomplete="name" maxlength="100" required aria-describedby="fullName-error">
+                <p class="field-error" id="fullName-error" data-error-for="fullName"></p>
+              </div>
+              <div class="field">
+                <label for="email">Email address <span class="req-mark" aria-hidden="true">*</span></label>
+                <input id="email" name="email" type="email" autocomplete="email" inputmode="email" maxlength="254" required aria-describedby="email-error">
+                <p class="field-error" id="email-error" data-error-for="email"></p>
+              </div>
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label for="country">Country of residence <span class="optional">(optional)</span></label>
+                <input id="country" name="country" type="text" autocomplete="country-name" maxlength="80" aria-describedby="country-error">
+                <p class="field-error" id="country-error" data-error-for="country"></p>
+              </div>
+              <div class="field">
+                <label for="whatsapp">WhatsApp number <span class="optional">(optional)</span></label>
+                <input id="whatsapp" name="whatsapp" type="tel" autocomplete="tel" inputmode="tel" maxlength="24" placeholder="+44 7700 900123" aria-describedby="whatsapp-hint whatsapp-error">
+                <p class="field-hint" id="whatsapp-hint">Please include your country code, starting with +.</p>
+                <p class="field-error" id="whatsapp-error" data-error-for="whatsapp"></p>
+              </div>
+            </div>
+          </fieldset>
+
+          <!-- 2. Your trip -->
+          <fieldset class="form-section">
+            <legend><span class="legend-num" aria-hidden="true">2</span> Your trip</legend>
+
+            <div class="field">
+              <label for="stayLength">Length of stay in Sri Lanka <span class="req-mark" aria-hidden="true">*</span></label>
+              <select id="stayLength" name="stayLength" required aria-describedby="stayLength-error">
+                <option value="">Please choose</option>
+                <option>Up to 5 days</option>
+                <option>6 to 9 days</option>
+                <option>10 to 14 days</option>
+                <option>15 to 21 days</option>
+                <option>More than 3 weeks</option>
+                <option>Not sure yet</option>
+              </select>
+              <p class="field-error" id="stayLength-error" data-error-for="stayLength"></p>
+            </div>
+
+            <fieldset class="field group">
+              <legend class="group-legend">Travel dates <span class="optional">(optional)</span></legend>
+              <div class="choice-row" data-dates-status>
+                <label class="pill"><input type="radio" name="datesStatus" value="undecided" checked> <span>Not decided yet</span></label>
+                <label class="pill"><input type="radio" name="datesStatus" value="approximate"> <span>Approximate dates</span></label>
+                <label class="pill"><input type="radio" name="datesStatus" value="fixed"> <span>Confirmed dates</span></label>
+              </div>
+              <div class="field-row" data-date-fields hidden>
+                <div class="field">
+                  <label for="arrivalDate">Arrival date</label>
+                  <input id="arrivalDate" name="arrivalDate" type="date" aria-describedby="arrivalDate-error">
+                  <p class="field-error" id="arrivalDate-error" data-error-for="arrivalDate"></p>
+                </div>
+                <div class="field">
+                  <label for="departureDate">Departure date</label>
+                  <input id="departureDate" name="departureDate" type="date" aria-describedby="departureDate-error">
+                  <p class="field-error" id="departureDate-error" data-error-for="departureDate"></p>
+                </div>
+              </div>
+            </fieldset>
+
+            <div class="field-row field-row-narrow">
+              <div class="field">
+                <label for="adults">Adults <span class="optional">(optional)</span></label>
+                <input id="adults" name="adults" type="number" inputmode="numeric" min="1" max="30" step="1" aria-describedby="adults-error">
+                <p class="field-error" id="adults-error" data-error-for="adults"></p>
+              </div>
+              <div class="field">
+                <label for="children">Children <span class="optional">(optional)</span></label>
+                <input id="children" name="children" type="number" inputmode="numeric" min="0" max="20" step="1" aria-describedby="children-hint children-error">
+                <p class="field-hint" id="children-hint">Ages 17 and under.</p>
+                <p class="field-error" id="children-error" data-error-for="children"></p>
+              </div>
+            </div>
+          </fieldset>
+
+          <!-- 3. Destinations & interests -->
+          <fieldset class="form-section">
+            <legend><span class="legend-num" aria-hidden="true">3</span> Destinations and interests</legend>
+
+            <fieldset class="field group" aria-describedby="destinations-hint destinations-error" data-destinations-group>
+              <legend class="group-legend">Destinations <span class="req-mark" aria-hidden="true">*</span><span class="visually-hidden">(required)</span></legend>
+              <p class="field-hint" id="destinations-hint">Choose any that interest you, or “Help me choose”. Places added from the destination cards appear here.</p>
+              <div class="trip-summary" data-trip-summary aria-live="polite"></div>
+              <div class="choice-grid" data-destination-options>
+                <!-- destination checkboxes are added from site-config.js -->
+                <label class="check check-help">
+                  <input type="checkbox" name="destinations" value="Help me choose" data-help-choose>
+                  <span>Help me choose</span>
+                </label>
+              </div>
+              <p class="field-error" id="destinations-error" data-error-for="destinations"></p>
+            </fieldset>
+
+            <fieldset class="field group">
+              <legend class="group-legend">Interests <span class="optional">(optional)</span></legend>
+              <div class="choice-grid">
+                <label class="check"><input type="checkbox" name="interests" value="Culture"> <span>Culture</span></label>
+                <label class="check"><input type="checkbox" name="interests" value="Nature"> <span>Nature</span></label>
+                <label class="check"><input type="checkbox" name="interests" value="Wildlife"> <span>Wildlife</span></label>
+                <label class="check"><input type="checkbox" name="interests" value="Beaches"> <span>Beaches</span></label>
+                <label class="check"><input type="checkbox" name="interests" value="Local crafts"> <span>Local crafts</span></label>
+                <label class="check"><input type="checkbox" name="interests" value="Food"> <span>Food</span></label>
+                <label class="check"><input type="checkbox" name="interests" value="Adventure"> <span>Adventure</span></label>
+              </div>
+            </fieldset>
+          </fieldset>
+
+          <!-- 4. Arrangements -->
+          <fieldset class="form-section">
+            <legend><span class="legend-num" aria-hidden="true">4</span> Arrangements and preferences</legend>
+
+            <fieldset class="field group">
+              <legend class="group-legend">Travel arrangements you would like help with <span class="optional">(optional)</span></legend>
+              <div class="choice-grid">
+                <label class="check"><input type="checkbox" name="arrangements" value="Airport transfers"> <span>Airport transfers</span></label>
+                <label class="check"><input type="checkbox" name="arrangements" value="Driver and vehicle"> <span>Driver and vehicle</span></label>
+                <label class="check"><input type="checkbox" name="arrangements" value="Accommodation assistance"> <span>Accommodation assistance</span></label>
+                <label class="check"><input type="checkbox" name="arrangements" value="Guided experiences"> <span>Guided experiences</span></label>
+                <label class="check"><input type="checkbox" name="arrangements" value="Complete itinerary"> <span>Complete itinerary</span></label>
+                <label class="check"><input type="checkbox" name="arrangements" value="Not sure yet"> <span>Not sure yet</span></label>
+              </div>
+            </fieldset>
+
+            <div class="field">
+              <label for="accommodation">Accommodation preference <span class="optional">(optional)</span></label>
+              <select id="accommodation" name="accommodation">
+                <option value="">Please choose</option>
+                <option>No preference</option>
+                <option>Guesthouses and homestays</option>
+                <option>Mid-range hotels</option>
+                <option>Boutique hotels</option>
+                <option>Luxury hotels and resorts</option>
+                <option>Eco lodges and nature stays</option>
+                <option>A mix of styles</option>
+              </select>
+            </div>
+
+            <fieldset class="field group budget" data-budget>
+              <legend class="group-legend">Approximate budget <span class="optional">(optional)</span></legend>
+              <div class="budget-row">
+                <div class="field">
+                  <label for="budgetCurrency" class="label-small">Currency</label>
+                  <select id="budgetCurrency" name="budgetCurrency">
+                    <option value="USD">USD</option>
+                    <option value="EUR">EUR</option>
+                    <option value="GBP">GBP</option>
+                    <option value="AUD">AUD</option>
+                    <option value="CAD">CAD</option>
+                    <option value="INR">INR</option>
+                    <option value="LKR">LKR</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="budgetAmount" class="label-small">Amount</label>
+                  <input id="budgetAmount" name="budgetAmount" type="number" inputmode="numeric" min="1" step="1" aria-describedby="budgetAmount-error">
+                </div>
+                <div class="field">
+                  <label for="budgetBasis" class="label-small">Basis</label>
+                  <select id="budgetBasis" name="budgetBasis">
+                    <option value="total">Total for the group</option>
+                    <option value="per person">Per person</option>
+                  </select>
+                </div>
+              </div>
+              <label class="check check-inline"><input type="checkbox" name="budgetUndecided" data-budget-undecided> <span>Not decided</span></label>
+              <p class="field-error" id="budgetAmount-error" data-error-for="budgetAmount"></p>
+            </fieldset>
+
+            <div class="field">
+              <label for="message">Special requests, accessibility needs or other questions <span class="optional">(optional)</span></label>
+              <textarea id="message" name="message" rows="5" maxlength="3000" aria-describedby="message-count message-error"></textarea>
+              <p class="field-hint counter" id="message-count" data-counter-for="message" aria-live="off">Up to 3,000 characters.</p>
+              <p class="field-error" id="message-error" data-error-for="message"></p>
+            </div>
+          </fieldset>
+
+          <!-- Honeypot: hidden from people; automated form-fillers tend to complete it. -->
+          <div class="hp" aria-hidden="true">
+            <label for="website">Leave this field empty</label>
+            <input id="website" name="website" type="text" tabindex="-1" autocomplete="off">
+          </div>
+
+          <div class="form-section form-final">
+            <label class="check check-consent">
+              <input type="checkbox" name="consent" id="consent" required aria-describedby="consent-error">
+              <span>I agree that Ayesha Travel may use the details I have submitted to respond to this enquiry. <a href="#privacy">Read the privacy notice</a>. <span class="req-mark" aria-hidden="true">*</span></span>
+            </label>
+            <p class="field-error" id="consent-error" data-error-for="consent"></p>
+
+            <button class="btn btn-gold btn-submit" type="submit" data-submit>
+              <span class="btn-spinner" aria-hidden="true"></span>
+              <span data-submit-label>Send My Travel Enquiry</span>
+            </button>
+            <p class="plan-small">Sending this form does not create a booking or commit you to anything.</p>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- ============================== CONTACT ============================= -->
+    <section class="section contact" id="contact" aria-labelledby="contact-title">
+      <div class="container contact-inner">
+        <div>
+          <p class="eyebrow">Contact</p>
+          <h2 id="contact-title">Prefer to say hello first?</h2>
+          <p class="contact-copy" data-contact-copy>The best way to reach Ayesha is through the <a href="#plan">travel enquiry form</a>.</p>
+        </div>
+        <!-- Links are added from site-config.js; empty values are not shown. -->
+        <ul class="contact-links" role="list" data-contact-links></ul>
+      </div>
+    </section>
+  </main>
+
+  <!-- =============================== FOOTER ============================== -->
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <img src="assets/img/logo.svg" alt="Ayesha Travel" width="180" height="39" loading="lazy">
+        <p>Personal travel planning for visitors to Sri Lanka.</p>
+        <ul class="footer-social" role="list" data-social-links></ul>
+      </div>
+
+      <div class="privacy" id="privacy">
+        <h2>Privacy notice</h2>
+        <p>When you send a travel enquiry, we collect the details you choose to provide: your name and email address, and optionally your country of residence, WhatsApp number, travel dates, number of travellers, destinations, interests, preferred arrangements, accommodation preference, approximate budget and any message, including accessibility needs you decide to share.</p>
+        <p>These details are sent by email to Ayesha and are used only to respond to your enquiry and discuss your travel plans with you. They are not sold or used for marketing. Our email delivery provider processes the message in order to deliver it. To ask about, correct or delete the information you have shared, please reply to any email from Ayesha<span data-privacy-contact></span>.</p>
+        <p>This site does not use advertising or analytics cookies. If you add destinations to your trip, that selection is stored only in your own browser so it is still there if you reload the page.</p>
+      </div>
+
+      <div class="footer-meta">
+        <nav aria-label="Footer">
+          <ul role="list">
+            <li><a href="#destinations">Destinations</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#plan">Plan Your Trip</a></li>
+            <li><a href="credits.html">Photo credits</a></li>
+          </ul>
+        </nav>
+        <p class="credits">Photographs from Wikimedia Commons by Gayomiw, Bernard Gagnon, Dan arndt, Knthabrew, A.Savin, dronepicr and Byrdyak, used under Creative Commons and Free Art licences. <a href="credits.html">Full credits and licences</a>.</p>
+        <p class="copyright">&copy; <span data-year>2026</span> Ayesha Travel</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast for "added to trip" feedback (also announced to screen readers) -->
+  <div class="toast" data-toast role="status" aria-live="polite" hidden>
+    <span data-toast-text></span>
+    <a href="#plan" class="toast-link" data-toast-link>View my enquiry</a>
+  </div>
+</body>
+</html>

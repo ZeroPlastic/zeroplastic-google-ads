@@ -1,0 +1,15 @@
+/* Loaded only when JavaScript is unavailable: show the navigation inline
+   instead of behind the menu button, and hide the JavaScript-only form. */
+@media (max-width: 860px) {
+  .site-header { height: auto; position: static; padding-block: 0.75rem; }
+  .header-inner { flex-wrap: wrap; }
+  .nav-toggle { display: none !important; }
+  .site-nav, .site-nav:not(.is-open) {
+    display: flex !important; position: static; padding: 0; box-shadow: none; border: 0;
+    flex-direction: row; flex-wrap: wrap; background: none; max-height: none;
+  }
+  .nav-list { flex-direction: row; gap: 1rem; }
+  .nav-list li + li { border: 0; }
+  .nav-list a { font-family: inherit; font-size: 1rem; padding: 0.25rem 0; }
+  .hero { margin-top: 0; }
+}

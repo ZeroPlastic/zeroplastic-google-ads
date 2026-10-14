@@ -1,0 +1,4 @@
+# Re-include the example env file (the repository root ignores .env.*).
+!.env.example
+.vercel/
+.netlify/

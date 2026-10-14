@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 48" role="img" aria-labelledby="t">
+  <!-- PLACEHOLDER WORDMARK. Replace this file with the supplied Ayesha Travel logo (keep the filename,
+       or update the <img> src in index.html). See README.md → "Replacing the logo". -->
+  <title id="t">Ayesha Travel</title>
+  <g fill="none" stroke="#b08d4a" stroke-width="1.5">
+    <circle cx="24" cy="24" r="21"/>
+    <path d="M10 31c5-4 9-12 14-17 5 5 9 13 14 17" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M15 31h18" stroke-linecap="round"/>
+  </g>
+  <text x="56" y="25" font-family="'Cormorant Garamond', Georgia, serif" font-size="23" font-weight="600" fill="#0f3b3d" letter-spacing=".3">Ayesha</text>
+  <text x="57" y="41" font-family="'Source Sans 3', Arial, sans-serif" font-size="9.5" fill="#7a6430" letter-spacing="3.6">TRAVEL · SRI LANKA</text>
+</svg>
